@@ -1,0 +1,18 @@
+# 文字檔一律 LF
+* text=auto eol=lf
+*.py   text eol=lf
+*.txt  text eol=lf
+*.md   text eol=lf
+*.sh   text eol=lf
+
+# 二進位/模型權重與圖片不可改行尾
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pt  binary
+*.pth binary
+*.ckpt binary
+*.npy binary
+*.pt filter=lfs diff=lfs merge=lfs -text
+pt/weights_as_txt/*.txt filter=lfs diff=lfs merge=lfs -text

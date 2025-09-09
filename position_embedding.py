@@ -67,21 +67,13 @@ def interpolate(depth_map: np.ndarray) -> np.ndarray:
     Ww = int(w / 2)
     output = np.zeros((Wh, Ww), dtype=np.float32)
     
-    scale_h = float(h) / Wh
-    scale_w = float(w) / Ww
-    
     for i in range(Wh):
         for j in range(Ww):
-            y = (i + 0.5) * scale_h - 0.5
-            x = (j + 0.5) * scale_w - 0.5
+            iy = i * 2
+            ix = j * 2
             
-            iy = int(np.floor(y))
-            ix = int(np.floor(x))
-            dy = y - iy
-            dx = x - ix
-            
-            weights_y = np.array([bicubic_kernel(dy - m) for m in range(-1, 3)])
-            weights_x = np.array([bicubic_kernel(dx - n) for n in range(-1, 3)])
+            weights_x = np.array([-0.09375, 0.59375, 0.59375, -0.09375])
+            weights_y = np.array([-0.09375, 0.59375, 0.59375, -0.09375])
             
             patch = np.zeros((4, 4), dtype=np.float32)
             for my in range(4):

@@ -4,6 +4,13 @@ from PIL import Image
 import sys
 import re
 
+def png_to_numpy_480x640(path: str) -> np.ndarray:
+    img = Image.open(path).convert("RGB")           # 轉成 RGB 3 通道
+    img_resized = img.resize((640, 480), Image.BICUBIC)  # (W,H) 注意 Pillow 的順序
+    x = np.asarray(img_resized, dtype=np.uint8)     # (480, 640, 3)
+    chw = np.transpose(x, (2, 0, 1))                # (3, 480, 640)
+    return chw
+
 def ppm_to_numpy(path: str) -> np.ndarray:
     """
     讀取 P3 PPM 檔，回傳 shape=(C, H, W) 的 numpy 陣列
@@ -243,3 +250,33 @@ def save_image(dehaze, image_name, category):
     img = Image.fromarray(img_array)
     save_path = f'{File_Path}/{image_name[:-3]}.png'
     img.save(save_path)
+
+
+
+def numpy_array_to_txt(array, file_path, delimiter=' ', fmt=None):
+    if not isinstance(array, np.ndarray):
+        raise ValueError("Input must be a NumPy array.")
+
+    if fmt is None:
+        if np.issubdtype(array.dtype, np.number):
+            fmt = '%.18e'
+        elif np.issubdtype(array.dtype, np.str_) or np.issubdtype(array.dtype, np.object_):
+            fmt = '%s'
+        else:
+            raise TypeError(f"Unsupported array dtype: {array.dtype}. Provide a custom 'fmt'.")
+    
+    try:
+        if array.ndim <= 2:
+            # 直接儲存一維或二維陣列
+            np.savetxt(file_path, array, delimiter=delimiter, fmt=fmt, header='')
+        else:
+            shape_str = '_' + '_'.join(map(str, array.shape))
+            file_path = f"{file_path}{shape_str}.txt"
+            flattened_array = array.ravel()
+            np.savetxt(file_path, flattened_array, delimiter=delimiter, fmt=fmt)
+        
+        print(array.shape)
+        print(f"Array successfully saved to {file_path}.")
+
+    except IOError as e:
+        raise IOError(f"Error saving file: {e}")

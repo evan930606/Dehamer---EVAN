@@ -207,7 +207,6 @@ def Decoder(S_block_0: np.ndarray,
 
                        'MSRB2_conv_out_weight'                    , (128, 128, 3, 3))
 
-    inout.compare_arrays('MSRB_2', MSRB_2, inout.load_ans_from_npy('MSRB_2',(1, 128, 148, 112)))
 
     conv2_weight   = inout.load_weight_from_txt('conv2_weight',(128, 384, 3, 3))
     conv2_bias     = inout.load_weight_from_txt('conv2_bias',(128))

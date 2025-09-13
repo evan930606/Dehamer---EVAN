@@ -14,3 +14,4 @@
 *.ckpt binary
 *.npy binary
 pt/weights_as_txt/*.txt filter=lfs diff=lfs merge=lfs -text
+*.txt filter=lfs diff=lfs merge=lfs -text

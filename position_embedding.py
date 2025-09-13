@@ -138,7 +138,7 @@ def reconstruct(x: np.ndarray, absolute_pos_embed: np.ndarray) -> np.ndarray:
 def position_embedding_3D(x: np.ndarray) -> np.ndarray:
     x_dcp              = dark_channal(x)
     x_dcp_down         = interpolate(x_dcp)
-    pat_emb_weight     = inout.load_weight_from_txt('swin_1_patch_embed_proj_weight', (96, 3, 2, 2))
+    pat_emb_weight     = inout.load_weight_from_txt('swin_1_patch_embed_proj_weight', (96, 3, 2, 2)) 
     pat_emb_bias       = inout.load_weight_from_txt('swin_1_patch_embed_proj_bias', (96))
     lay_pat_emb_weight = inout.load_weight_from_txt('swin_1_patch_embed_norm_weight', (96))
     lay_pat_emb_bias   = inout.load_weight_from_txt('swin_1_patch_embed_norm_bias', (96))

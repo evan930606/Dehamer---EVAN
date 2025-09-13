@@ -230,7 +230,9 @@ def BasicLayer(x: np.ndarray, H: int, W: int, num_heads: int,
             img_mask[h, w, :] = cnt
             cnt += 1
     mask_windows = window_partition(img_mask, window_size)
+    print(mask_windows.shape)
     mask_windows = mask_windows.reshape(-1, window_size * window_size)
+    print(mask_windows.shape)
     attn_mask = mask_windows[:, None, :] - mask_windows[:, :, None]
     attn_mask = np.where(attn_mask != 0, float(-100.0), float(0.0))
     x_block0 = swin_transformer_block(x, H, W, window_size, num_heads, 0,attn_mask,
